@@ -1,0 +1,1 @@
+This repository will be used for holding a bunch of small coding projects.
