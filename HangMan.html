@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>HangMan - by david-556</title>
+    <link rel="stylesheet" href="HangMan.css">
+</head>
+<body>
+    <div class="container">
+        <h1>HangMan</h1>
+        <div id="wordContainer"></div>
+        <p id="guessesLeft">Guesses left: <span id="guesses"></span></p>
+        <div id="letters"></div>
+        <div class="threeThings">
+        <input type="text" id="userWord" placeholder="Enter your word">
+        <label>
+            <input type="checkbox" id="useRandomWord"> Use random word
+        </label>
+        </div>
+        <button onclick="startGame()" >New Game</button>
+    </div>
+    <script src="HangMan.js"></script>
+</body>
+</html>

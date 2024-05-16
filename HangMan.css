@@ -1,0 +1,31 @@
+.container {
+    max-width: 600px; 
+    margin: 50px auto;
+    text-align: center;
+}
+
+#wordContainer {
+    margin: 20px 0; 
+    font-size: 24px;
+}
+
+#letters {
+    margin-top: 20px;
+}
+
+h1 {
+    font-family:Arial, Helvetica, sans-serif 
+}
+
+button {
+    margin-top: 20px; 
+    padding: 10px 20px;
+    font-size: 16px;
+    cursor: pointer;
+    font-family: Arial, Helvetica, sans-serif;
+}
+
+.threeThings {
+    flex-direction: column;
+    margin-top: 30px;
+}
