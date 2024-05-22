@@ -1,14 +1,37 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="de">
 
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Kamils Website</title>
+    <title>Bubble Sort Visualizer</title>
+    <link rel="stylesheet" href="stylesheet.css">
 </head>
 
 <body>
-
+    <div class="container">
+        <h1>Bubble Sort</h1>
+        <div class="visualizer">
+            <h2>Visualizer</h2>
+            <div class="inputs">
+                <label for="array-size">Array size:</label>
+                <select id="array-size">
+                    <option value="8">8</option>
+                    <!-- Weitere Optionen hinzufügen -->
+                </select>
+                <label for="array-layout">Array layout:</label>
+                <select id="array-layout">
+                    <option value="bar">Bar</option>
+                    <!-- Weitere Optionen hinzufügen -->
+                </select>
+                <label for="array-values">Array Values (optional):</label>
+                <input type="text" id="array-values" placeholder="Type multiple array values using comma separated">
+                <button id="run-button">Run</button>
+            </div>
+            <div class="array-container"></div> <!-- Container für die Visualisierung -->
+        </div>
+    </div>
+    <script src="script.js"></script>
 </body>
 
 </html>
