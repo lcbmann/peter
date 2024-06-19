@@ -39129,7 +39129,7 @@ function animate() {
 
 // Call init function to set up the scene
 init();
-},{"three":"node_modules/three/build/three.module.js","./OrbitControls.js":"OrbitControls.js","./textures/earth_texture.jpg":"textures/earth_texture.jpg"}],"../../../.nvm/versions/node/v20.14.0/lib/node_modules/parcel-bundler/src/builtins/hmr-runtime.js":[function(require,module,exports) {
+},{"three":"node_modules/three/build/three.module.js","./OrbitControls.js":"OrbitControls.js","./textures/earth_texture.jpg":"textures/earth_texture.jpg"}],"../../../../.nvm/versions/node/v20.14.0/lib/node_modules/parcel-bundler/src/builtins/hmr-runtime.js":[function(require,module,exports) {
 var global = arguments[3];
 var OVERLAY_ID = '__parcel__error__overlay__';
 var OldModule = module.bundle.Module;
@@ -39154,7 +39154,7 @@ var parent = module.bundle.parent;
 if ((!parent || !parent.isParcelRequire) && typeof WebSocket !== 'undefined') {
   var hostname = "" || location.hostname;
   var protocol = location.protocol === 'https:' ? 'wss' : 'ws';
-  var ws = new WebSocket(protocol + '://' + hostname + ':' + "61484" + '/');
+  var ws = new WebSocket(protocol + '://' + hostname + ':' + "49615" + '/');
   ws.onmessage = function (event) {
     checkedAssets = {};
     assetsToAccept = [];
@@ -39298,5 +39298,5 @@ function hmrAcceptRun(bundle, id) {
     return true;
   }
 }
-},{}]},{},["../../../.nvm/versions/node/v20.14.0/lib/node_modules/parcel-bundler/src/builtins/hmr-runtime.js","chronoglobe.js"], null)
+},{}]},{},["../../../../.nvm/versions/node/v20.14.0/lib/node_modules/parcel-bundler/src/builtins/hmr-runtime.js","chronoglobe.js"], null)
 //# sourceMappingURL=/chronoglobe.3614615b.js.map
