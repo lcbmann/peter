@@ -1,0 +1,1 @@
+{"version":3,"sources":["import-map.json"],"names":["module","exports"],"mappings":"AAAAA,MAAM,CAACC,OAAO,GAAG;EACb,SAAS,EAAE;IACT,OAAO,EAAE;EACX;AACF,CAAC","file":"import-map.7a242e6d.js","sourceRoot":"..","sourcesContent":["module.exports = {\n    \"imports\": {\n      \"three\": \"https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.module.js\"\n    }\n  }\n  ;"]}
