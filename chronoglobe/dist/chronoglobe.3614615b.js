@@ -39033,25 +39033,18 @@ var OrbitControls = exports.OrbitControls = /*#__PURE__*/function (_EventDispatc
   _inherits(OrbitControls, _EventDispatcher);
   return _createClass(OrbitControls);
 }(_three.EventDispatcher);
-},{"three":"node_modules/three/build/three.module.js"}],"textures/earth_texture.jpg":[function(require,module,exports) {
-module.exports = "/earth_texture.86fe52c0.jpg";
+},{"three":"node_modules/three/build/three.module.js"}],"textures/earth_texture4.jpg":[function(require,module,exports) {
+module.exports = "/earth_texture4.b6f43ffb.jpg";
 },{}],"chronoglobe.js":[function(require,module,exports) {
 "use strict";
 
 var THREE = _interopRequireWildcard(require("three"));
 var _OrbitControls = require("./OrbitControls.js");
-var _earth_texture = _interopRequireDefault(require("./textures/earth_texture.jpg"));
+var _earth_texture = _interopRequireDefault(require("./textures/earth_texture4.jpg"));
 function _interopRequireDefault(e) { return e && e.__esModule ? e : { default: e }; }
 function _getRequireWildcardCache(e) { if ("function" != typeof WeakMap) return null; var r = new WeakMap(), t = new WeakMap(); return (_getRequireWildcardCache = function (e) { return e ? t : r; })(e); }
 function _interopRequireWildcard(e, r) { if (!r && e && e.__esModule) return e; if (null === e || "object" != typeof e && "function" != typeof e) return { default: e }; var t = _getRequireWildcardCache(r); if (t && t.has(e)) return t.get(e); var n = { __proto__: null }, a = Object.defineProperty && Object.getOwnPropertyDescriptor; for (var u in e) if ("default" !== u && {}.hasOwnProperty.call(e, u)) { var i = a ? Object.getOwnPropertyDescriptor(e, u) : null; i && (i.get || i.set) ? Object.defineProperty(n, u, i) : n[u] = e[u]; } return n.default = e, t && t.set(e, n), n; }
-// Import necessary modules from Three.js
-
-// Adjust the path as per your folder structure
-
-// Define variables
-var scene, camera, renderer, controls;
-
-// Initialize function
+var scene, camera, renderer, controls, raycaster, globe, textureCanvas, context;
 function init() {
   // Scene
   scene = new THREE.Scene();
@@ -39075,21 +39068,35 @@ function init() {
   });
 
   // Ambient light
-  var ambientLight = new THREE.AmbientLight(0xffffff, 0.5);
+  var ambientLight = new THREE.AmbientLight(0xffffff, 0.2);
   scene.add(ambientLight);
 
   // Directional light
-  var directionalLight = new THREE.DirectionalLight(0xffffff, 0.5);
+  var directionalLight = new THREE.DirectionalLight(0xffffff, 1);
   directionalLight.position.set(10, 10, 10);
   scene.add(directionalLight);
 
-  // Create a globe
+  // Point light
+  var pointLight = new THREE.PointLight(0xffffff, 0.5);
+  pointLight.position.set(-10, -10, -10);
+  scene.add(pointLight);
+
+  // Create a canvas for dynamic texture
+  textureCanvas = document.createElement('canvas');
+  textureCanvas.width = 2048;
+  textureCanvas.height = 1024;
+  context = textureCanvas.getContext('2d');
+  drawInitialTexture();
+
+  // Create a texture from the canvas
+  var texture = new THREE.CanvasTexture(textureCanvas);
+
+  // Globe
   var geometry = new THREE.SphereGeometry(3, 50, 50);
-  var texture = new THREE.TextureLoader().load(_earth_texture.default);
-  var material = new THREE.MeshPhongMaterial({
+  var material = new THREE.MeshStandardMaterial({
     map: texture
   });
-  var globe = new THREE.Mesh(geometry, material);
+  globe = new THREE.Mesh(geometry, material);
   scene.add(globe);
 
   // Initialize OrbitControls
@@ -39097,23 +39104,58 @@ function init() {
   controls.enableDamping = true;
   controls.dampingFactor = 0.25;
   controls.rotateSpeed = 0.35;
+  controls.enablePan = false;
+  controls.mouseButtons = {
+    LEFT: THREE.MOUSE.ROTATE,
+    MIDDLE: THREE.MOUSE.DOLLY,
+    RIGHT: THREE.MOUSE.ROTATE
+  };
 
-  // Handle click events
-  renderer.domElement.addEventListener('click', function (event) {
-    var mouse = new THREE.Vector2();
-    mouse.x = event.clientX / window.innerWidth * 2 - 1;
-    mouse.y = -(event.clientY / window.innerHeight) * 2 + 1;
-    var raycaster = new THREE.Raycaster();
-    raycaster.setFromCamera(mouse, camera);
-    var intersects = raycaster.intersectObjects(scene.children, true);
-    if (intersects.length > 0) {
-      var selectedObject = intersects[0].object;
-      // Handle click on the selected object (e.g., show information)
-    }
-  });
+  // Initialize Raycaster
+  raycaster = new THREE.Raycaster();
+
+  // Add event listener for click events
+  renderer.domElement.addEventListener('click', onClick, false);
 
   // Start animation loop
   animate();
+}
+function drawInitialTexture() {
+  // Draw the initial map texture on the canvas
+  var baseMap = new Image();
+  baseMap.src = _earth_texture.default; // Set the path to your base map image
+  console.log('Attempting to load image:', baseMap.src);
+  baseMap.onload = function () {
+    console.log('Image loaded successfully');
+    context.drawImage(baseMap, 0, 0, textureCanvas.width, textureCanvas.height);
+    updateTexture();
+  };
+  baseMap.onerror = function (error) {
+    console.error('Error loading base map:', error);
+  };
+}
+function updateTexture() {
+  // Update the canvas texture (e.g., draw new civilization boundaries)
+  // Example: Drawing a simple rectangle for demonstration
+  context.fillStyle = 'rgba(255, 0, 0, 0.5)';
+  context.fillRect(100, 100, 200, 100);
+  globe.material.map.needsUpdate = true;
+}
+
+// Handle click events
+function onClick(event) {
+  var mouse = new THREE.Vector2();
+  mouse.x = event.clientX / window.innerWidth * 2 - 1;
+  mouse.y = -(event.clientY / window.innerHeight) * 2 + 1;
+  raycaster.setFromCamera(mouse, camera);
+  var intersects = raycaster.intersectObjects(scene.children);
+  if (intersects.length > 0) {
+    var selectedObject = intersects[0].object;
+    if (selectedObject === globe) {
+      // Handle click on the globe (e.g., show information about the civilization)
+      console.log('Globe clicked!');
+    }
+  }
 }
 
 // Animation loop
@@ -39129,7 +39171,7 @@ function animate() {
 
 // Call init function to set up the scene
 init();
-},{"three":"node_modules/three/build/three.module.js","./OrbitControls.js":"OrbitControls.js","./textures/earth_texture.jpg":"textures/earth_texture.jpg"}],"../../../../.nvm/versions/node/v20.14.0/lib/node_modules/parcel-bundler/src/builtins/hmr-runtime.js":[function(require,module,exports) {
+},{"three":"node_modules/three/build/three.module.js","./OrbitControls.js":"OrbitControls.js","./textures/earth_texture4.jpg":"textures/earth_texture4.jpg"}],"../../../../.nvm/versions/node/v20.14.0/lib/node_modules/parcel-bundler/src/builtins/hmr-runtime.js":[function(require,module,exports) {
 var global = arguments[3];
 var OVERLAY_ID = '__parcel__error__overlay__';
 var OldModule = module.bundle.Module;
@@ -39154,7 +39196,7 @@ var parent = module.bundle.parent;
 if ((!parent || !parent.isParcelRequire) && typeof WebSocket !== 'undefined') {
   var hostname = "" || location.hostname;
   var protocol = location.protocol === 'https:' ? 'wss' : 'ws';
-  var ws = new WebSocket(protocol + '://' + hostname + ':' + "49615" + '/');
+  var ws = new WebSocket(protocol + '://' + hostname + ':' + "54568" + '/');
   ws.onmessage = function (event) {
     checkedAssets = {};
     assetsToAccept = [];
