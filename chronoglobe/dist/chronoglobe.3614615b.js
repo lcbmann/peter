@@ -39035,71 +39035,63 @@ var OrbitControls = exports.OrbitControls = /*#__PURE__*/function (_EventDispatc
 }(_three.EventDispatcher);
 },{"three":"node_modules/three/build/three.module.js"}],"textures/earth_texture4.jpg":[function(require,module,exports) {
 module.exports = "/earth_texture4.b6f43ffb.jpg";
+},{}],"textures/civilization_1000BC.jpg":[function(require,module,exports) {
+module.exports = "/civilization_1000BC.a08571e6.jpg";
+},{}],"textures/civilization_500BC.jpg":[function(require,module,exports) {
+module.exports = "/civilization_500BC.e8f4208f.jpg";
 },{}],"chronoglobe.js":[function(require,module,exports) {
 "use strict";
 
 var THREE = _interopRequireWildcard(require("three"));
 var _OrbitControls = require("./OrbitControls.js");
 var _earth_texture = _interopRequireDefault(require("./textures/earth_texture4.jpg"));
+var _civilization_1000BC = _interopRequireDefault(require("./textures/civilization_1000BC.jpg"));
+var _civilization_500BC = _interopRequireDefault(require("./textures/civilization_500BC.jpg"));
 function _interopRequireDefault(e) { return e && e.__esModule ? e : { default: e }; }
 function _getRequireWildcardCache(e) { if ("function" != typeof WeakMap) return null; var r = new WeakMap(), t = new WeakMap(); return (_getRequireWildcardCache = function (e) { return e ? t : r; })(e); }
 function _interopRequireWildcard(e, r) { if (!r && e && e.__esModule) return e; if (null === e || "object" != typeof e && "function" != typeof e) return { default: e }; var t = _getRequireWildcardCache(r); if (t && t.has(e)) return t.get(e); var n = { __proto__: null }, a = Object.defineProperty && Object.getOwnPropertyDescriptor; for (var u in e) if ("default" !== u && {}.hasOwnProperty.call(e, u)) { var i = a ? Object.getOwnPropertyDescriptor(e, u) : null; i && (i.get || i.set) ? Object.defineProperty(n, u, i) : n[u] = e[u]; } return n.default = e, t && t.set(e, n), n; }
+// Import other images similarly...
+
+var civilizationMaps = {
+  '-1000': _civilization_1000BC.default,
+  '-500': _civilization_500BC.default
+  // Add other mappings...
+};
 var scene, camera, renderer, controls, raycaster, globe, textureCanvas, context;
 function init() {
-  // Scene
   scene = new THREE.Scene();
-
-  // Camera
   camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
   camera.position.z = 5;
-
-  // Renderer
   renderer = new THREE.WebGLRenderer({
     antialias: true
   });
   renderer.setSize(window.innerWidth, window.innerHeight);
   document.body.appendChild(renderer.domElement);
-
-  // Handle window resizing
   window.addEventListener('resize', function () {
     renderer.setSize(window.innerWidth, window.innerHeight);
     camera.aspect = window.innerWidth / window.innerHeight;
     camera.updateProjectionMatrix();
   });
-
-  // Ambient light
   var ambientLight = new THREE.AmbientLight(0xffffff, 0.2);
   scene.add(ambientLight);
-
-  // Directional light
   var directionalLight = new THREE.DirectionalLight(0xffffff, 1);
   directionalLight.position.set(10, 10, 10);
   scene.add(directionalLight);
-
-  // Point light
   var pointLight = new THREE.PointLight(0xffffff, 0.5);
   pointLight.position.set(-10, -10, -10);
   scene.add(pointLight);
-
-  // Create a canvas for dynamic texture
   textureCanvas = document.createElement('canvas');
   textureCanvas.width = 2048;
   textureCanvas.height = 1024;
   context = textureCanvas.getContext('2d');
   drawInitialTexture();
-
-  // Create a texture from the canvas
   var texture = new THREE.CanvasTexture(textureCanvas);
-
-  // Globe
   var geometry = new THREE.SphereGeometry(3, 50, 50);
   var material = new THREE.MeshStandardMaterial({
     map: texture
   });
   globe = new THREE.Mesh(geometry, material);
   scene.add(globe);
-
-  // Initialize OrbitControls
   controls = new _OrbitControls.OrbitControls(camera, renderer.domElement);
   controls.enableDamping = true;
   controls.dampingFactor = 0.25;
@@ -39110,20 +39102,13 @@ function init() {
     MIDDLE: THREE.MOUSE.DOLLY,
     RIGHT: THREE.MOUSE.ROTATE
   };
-
-  // Initialize Raycaster
   raycaster = new THREE.Raycaster();
-
-  // Add event listener for click events
   renderer.domElement.addEventListener('click', onClick, false);
-
-  // Start animation loop
   animate();
 }
 function drawInitialTexture() {
-  // Draw the initial map texture on the canvas
   var baseMap = new Image();
-  baseMap.src = _earth_texture.default; // Set the path to your base map image
+  baseMap.src = _earth_texture.default;
   console.log('Attempting to load image:', baseMap.src);
   baseMap.onload = function () {
     console.log('Image loaded successfully');
@@ -39135,14 +39120,29 @@ function drawInitialTexture() {
   };
 }
 function updateTexture() {
-  // Update the canvas texture (e.g., draw new civilization boundaries)
-  // Example: Drawing a simple rectangle for demonstration
   context.fillStyle = 'rgba(255, 0, 0, 0.5)';
   context.fillRect(100, 100, 200, 100);
   globe.material.map.needsUpdate = true;
 }
-
-// Handle click events
+function drawTextureForYear(selectedYear) {
+  var yearKey = selectedYear.toString();
+  if (civilizationMaps[yearKey]) {
+    var civilizationMapSrc = civilizationMaps[yearKey];
+    var civilizationMap = new Image();
+    civilizationMap.src = civilizationMapSrc;
+    console.log('Attempting to load image for year:', civilizationMap.src);
+    civilizationMap.onload = function () {
+      console.log('Image loaded successfully for year:', selectedYear);
+      context.drawImage(civilizationMap, 0, 0, textureCanvas.width, textureCanvas.height);
+      globe.material.map.needsUpdate = true;
+    };
+    civilizationMap.onerror = function (error) {
+      console.error('Error loading civilization map for year:', error);
+    };
+  } else {
+    console.error('No map available for year:', selectedYear);
+  }
+}
 function onClick(event) {
   var mouse = new THREE.Vector2();
   mouse.x = event.clientX / window.innerWidth * 2 - 1;
@@ -39152,26 +39152,32 @@ function onClick(event) {
   if (intersects.length > 0) {
     var selectedObject = intersects[0].object;
     if (selectedObject === globe) {
-      // Handle click on the globe (e.g., show information about the civilization)
       console.log('Globe clicked!');
     }
   }
 }
-
-// Animation loop
 function animate() {
   requestAnimationFrame(animate);
-
-  // Update controls
   controls.update();
-
-  // Render scene
   renderer.render(scene, camera);
 }
-
-// Call init function to set up the scene
 init();
-},{"three":"node_modules/three/build/three.module.js","./OrbitControls.js":"OrbitControls.js","./textures/earth_texture4.jpg":"textures/earth_texture4.jpg"}],"../../../../.nvm/versions/node/v20.14.0/lib/node_modules/parcel-bundler/src/builtins/hmr-runtime.js":[function(require,module,exports) {
+var timeline = document.getElementById('timeline');
+var yearInput = document.getElementById('yearInput');
+var yearLabel = document.getElementById('yearLabel');
+timeline.addEventListener('input', function (event) {
+  var selectedYear = event.target.value;
+  yearInput.value = selectedYear;
+  yearLabel.innerText = selectedYear;
+  drawTextureForYear(selectedYear);
+});
+yearInput.addEventListener('change', function (event) {
+  var selectedYear = event.target.value;
+  timeline.value = selectedYear;
+  yearLabel.innerText = selectedYear;
+  drawTextureForYear(selectedYear);
+});
+},{"three":"node_modules/three/build/three.module.js","./OrbitControls.js":"OrbitControls.js","./textures/earth_texture4.jpg":"textures/earth_texture4.jpg","./textures/civilization_1000BC.jpg":"textures/civilization_1000BC.jpg","./textures/civilization_500BC.jpg":"textures/civilization_500BC.jpg"}],"../../../../.nvm/versions/node/v20.14.0/lib/node_modules/parcel-bundler/src/builtins/hmr-runtime.js":[function(require,module,exports) {
 var global = arguments[3];
 var OVERLAY_ID = '__parcel__error__overlay__';
 var OldModule = module.bundle.Module;
@@ -39196,7 +39202,7 @@ var parent = module.bundle.parent;
 if ((!parent || !parent.isParcelRequire) && typeof WebSocket !== 'undefined') {
   var hostname = "" || location.hostname;
   var protocol = location.protocol === 'https:' ? 'wss' : 'ws';
-  var ws = new WebSocket(protocol + '://' + hostname + ':' + "54568" + '/');
+  var ws = new WebSocket(protocol + '://' + hostname + ':' + "57880" + '/');
   ws.onmessage = function (event) {
     checkedAssets = {};
     assetsToAccept = [];

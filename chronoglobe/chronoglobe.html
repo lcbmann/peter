@@ -3,15 +3,37 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Interactive Globe</title>
+    <title>Chronoglobe</title>
     <style>
-        body { margin: 0; }
+        body { margin: 0; overflow: hidden; }
+        #controls {
+            position: absolute;
+            top: 0;
+            width: 100%;
+            background: rgba(255, 255, 255, 0.8);
+            padding: 10px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        #timeline {
+            width: 80%;
+            height: 30px;
+        }
+        #yearInput {
+            width: 100px;
+            font-size: 16px;
+            padding: 5px;
+        }
         canvas { display: block; }
     </style>
 </head>
 <body>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
-    <script src="./OrbitControls.js"></script>
+    <div id="controls">
+        <input type="range" id="timeline" min="-1000" max="500" step="100" value="0">
+        <input type="number" id="yearInput" min="-1000" max="500" step="100" value="0">
+        <label for="timeline">Year: <span id="yearLabel">0</span></label>
+    </div>
     <script type="module" src="./chronoglobe.js"></script>
 </body>
 </html>
