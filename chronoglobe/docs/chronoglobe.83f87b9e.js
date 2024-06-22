@@ -117,7 +117,7 @@ parcelRequire = (function (modules, cache, entry, globalName) {
   }
 
   return newRequire;
-})({"node_modules/three/build/three.module.js":[function(require,module,exports) {
+})({"gBK8":[function(require,module,exports) {
 var define;
 "use strict";
 
@@ -38054,7 +38054,7 @@ if (typeof window !== 'undefined') {
     window.__THREE__ = REVISION;
   }
 }
-},{}],"OrbitControls.js":[function(require,module,exports) {
+},{}],"CEkB":[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -39033,19 +39033,19 @@ var OrbitControls = exports.OrbitControls = /*#__PURE__*/function (_EventDispatc
   _inherits(OrbitControls, _EventDispatcher);
   return _createClass(OrbitControls);
 }(_three.EventDispatcher);
-},{"three":"node_modules/three/build/three.module.js"}],"textures/earth_texture4.jpg":[function(require,module,exports) {
-module.exports = "/earth_texture4.b6f43ffb.jpg";
-},{}],"textures/civilization_115AD.png":[function(require,module,exports) {
-module.exports = "/civilization_115AD.c2878355.png";
-},{}],"textures/civilization_100AD.png":[function(require,module,exports) {
-module.exports = "/civilization_100AD.83873315.png";
-},{}],"textures/civilization_105AD.png":[function(require,module,exports) {
-module.exports = "/civilization_105AD.61add0ef.png";
-},{}],"textures/civilization_110AD.png":[function(require,module,exports) {
-module.exports = "/civilization_110AD.126dd709.png";
-},{}],"textures/usa_texture_test.png":[function(require,module,exports) {
-module.exports = "/usa_texture_test.7eaa1da6.png";
-},{}],"chronoglobe.js":[function(require,module,exports) {
+},{"three":"gBK8"}],"uhUa":[function(require,module,exports) {
+module.exports = "earth_texture4.7818df9d.jpg";
+},{}],"uVaZ":[function(require,module,exports) {
+module.exports = "civilization_115AD.8ccb47f3.png";
+},{}],"ztYy":[function(require,module,exports) {
+module.exports = "civilization_100AD.c76d9baa.png";
+},{}],"ysCl":[function(require,module,exports) {
+module.exports = "civilization_105AD.9f1d75e8.png";
+},{}],"yjrn":[function(require,module,exports) {
+module.exports = "civilization_110AD.cbde38e2.png";
+},{}],"EL6V":[function(require,module,exports) {
+module.exports = "usa_texture_test.b1de6643.png";
+},{}],"INW5":[function(require,module,exports) {
 "use strict";
 
 var THREE = _interopRequireWildcard(require("three"));
@@ -39059,42 +39059,22 @@ var _usa_texture_test = _interopRequireDefault(require("./textures/usa_texture_t
 function _interopRequireDefault(e) { return e && e.__esModule ? e : { default: e }; }
 function _getRequireWildcardCache(e) { if ("function" != typeof WeakMap) return null; var r = new WeakMap(), t = new WeakMap(); return (_getRequireWildcardCache = function (e) { return e ? t : r; })(e); }
 function _interopRequireWildcard(e, r) { if (!r && e && e.__esModule) return e; if (null === e || "object" != typeof e && "function" != typeof e) return { default: e }; var t = _getRequireWildcardCache(r); if (t && t.has(e)) return t.get(e); var n = { __proto__: null }, a = Object.defineProperty && Object.getOwnPropertyDescriptor; for (var u in e) if ("default" !== u && {}.hasOwnProperty.call(e, u)) { var i = a ? Object.getOwnPropertyDescriptor(e, u) : null; i && (i.get || i.set) ? Object.defineProperty(n, u, i) : n[u] = e[u]; } return n.default = e, t && t.set(e, n), n; }
+// Import other images similarly...
+
 var civilizationMaps = {
   '115': _civilization_115AD.default,
   '2024': _usa_texture_test.default,
   '100': _civilization_100AD.default,
   '105': _civilization_105AD.default,
   '110': _civilization_110AD.default
-};
-var markerData = {
-  '115': [{
-    position: {
-      lat: 41.5,
-      lon: 12.9
-    },
-    text: 'Marker 1 in 115 AD'
-  }, {
-    position: {
-      lat: 35.5,
-      lon: 20.9
-    },
-    text: 'Marker 2 in 115 AD'
-  }],
-  '2024': [{
-    position: {
-      lat: 34.0522,
-      lon: -118.2437
-    },
-    text: 'Marker in 2024 AD'
-  }]
+  // Add other mappings...
 };
 var textureCache = {};
 var scene, camera, renderer, controls, raycaster, globe, textureCanvas, context;
-var markers = [];
 function init() {
   scene = new THREE.Scene();
   camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
-  camera.position.z = 8;
+  camera.position.z = 5;
   renderer = new THREE.WebGLRenderer({
     antialias: true
   });
@@ -39174,71 +39154,11 @@ function drawTextureForYear(selectedYear) {
     drawInitialTexture(function () {
       context.drawImage(civilizationMap, 0, 0, textureCanvas.width, textureCanvas.height);
       globe.material.map.needsUpdate = true;
-      drawMarkersForYear(yearKey);
     });
   } else {
     console.error('No map available for year:', selectedYear);
-    drawInitialTexture(function () {
-      return drawMarkersForYear(yearKey);
-    });
+    drawInitialTexture();
   }
-}
-function drawMarkersForYear(yearKey) {
-  markers.forEach(function (marker) {
-    return scene.remove(marker);
-  });
-  markers = [];
-  if (markerData[yearKey]) {
-    markerData[yearKey].forEach(function (data) {
-      var marker = createMarker(data.position, data.text);
-      scene.add(marker);
-      markers.push(marker);
-    });
-  }
-}
-function createMarker(position, text) {
-  var markerGroup = new THREE.Group();
-
-  // Create the main body of the exclamation point
-  var cylinderGeometry = new THREE.CylinderGeometry(0.03, 0.01, 0.2, 32);
-  var cylinderMaterial = new THREE.MeshBasicMaterial({
-    color: 0xff0000,
-    transparent: true,
-    opacity: 0.8
-  });
-  var cylinder = new THREE.Mesh(cylinderGeometry, cylinderMaterial);
-  cylinder.position.y = 0.20;
-
-  // Create the dot of the exclamation point
-  var sphereGeometry = new THREE.SphereGeometry(0.02, 32, 32);
-  var sphereMaterial = new THREE.MeshBasicMaterial({
-    color: 0xff0000,
-    transparent: true,
-    opacity: 0.8
-  });
-  var sphere = new THREE.Mesh(sphereGeometry, sphereMaterial);
-  sphere.position.y = 0.05;
-
-  // Add both parts to the marker group
-  markerGroup.add(cylinder);
-  markerGroup.add(sphere);
-
-  // Add a point light to illuminate the area around the marker
-  var pointLight = new THREE.PointLight(0xff0000, 1, 5);
-  markerGroup.add(pointLight);
-  markerGroup.position.copy(latLonToVector3(position.lat, position.lon, 3));
-  markerGroup.userData = {
-    text: text
-  };
-  return markerGroup;
-}
-function latLonToVector3(lat, lon, radius) {
-  var phi = (90 - lat) * (Math.PI / 180);
-  var theta = (lon + 180) * (Math.PI / 180);
-  var x = -(radius * Math.sin(phi) * Math.cos(theta));
-  var z = radius * Math.sin(phi) * Math.sin(theta);
-  var y = radius * Math.cos(phi);
-  return new THREE.Vector3(x, y, z);
 }
 function initGlobe() {
   var texture = new THREE.CanvasTexture(textureCanvas);
@@ -39254,19 +39174,11 @@ function onClick(event) {
   mouse.x = event.clientX / window.innerWidth * 2 - 1;
   mouse.y = -(event.clientY / window.innerHeight) * 2 + 1;
   raycaster.setFromCamera(mouse, camera);
-  var intersects = raycaster.intersectObjects(scene.children, true);
+  var intersects = raycaster.intersectObjects(scene.children);
   if (intersects.length > 0) {
     var selectedObject = intersects[0].object;
     if (selectedObject === globe) {
       console.log('Globe clicked!');
-    } else {
-      var marker = intersects.find(function (intersect) {
-        return markers.includes(intersect.object.parent);
-      });
-      if (marker) {
-        var markerText = marker.object.parent.userData.text;
-        alert(markerText);
-      }
     }
   }
 }
@@ -39299,174 +39211,5 @@ yearInput.addEventListener('change', function (event) {
   updateYearLabel(selectedYear);
   drawTextureForYear(selectedYear);
 });
-},{"three":"node_modules/three/build/three.module.js","./OrbitControls.js":"OrbitControls.js","./textures/earth_texture4.jpg":"textures/earth_texture4.jpg","./textures/civilization_115AD.png":"textures/civilization_115AD.png","./textures/civilization_100AD.png":"textures/civilization_100AD.png","./textures/civilization_105AD.png":"textures/civilization_105AD.png","./textures/civilization_110AD.png":"textures/civilization_110AD.png","./textures/usa_texture_test.png":"textures/usa_texture_test.png"}],"../../../../.nvm/versions/node/v20.14.0/lib/node_modules/parcel-bundler/src/builtins/hmr-runtime.js":[function(require,module,exports) {
-var global = arguments[3];
-var OVERLAY_ID = '__parcel__error__overlay__';
-var OldModule = module.bundle.Module;
-function Module(moduleName) {
-  OldModule.call(this, moduleName);
-  this.hot = {
-    data: module.bundle.hotData,
-    _acceptCallbacks: [],
-    _disposeCallbacks: [],
-    accept: function (fn) {
-      this._acceptCallbacks.push(fn || function () {});
-    },
-    dispose: function (fn) {
-      this._disposeCallbacks.push(fn);
-    }
-  };
-  module.bundle.hotData = null;
-}
-module.bundle.Module = Module;
-var checkedAssets, assetsToAccept;
-var parent = module.bundle.parent;
-if ((!parent || !parent.isParcelRequire) && typeof WebSocket !== 'undefined') {
-  var hostname = "" || location.hostname;
-  var protocol = location.protocol === 'https:' ? 'wss' : 'ws';
-  var ws = new WebSocket(protocol + '://' + hostname + ':' + "55076" + '/');
-  ws.onmessage = function (event) {
-    checkedAssets = {};
-    assetsToAccept = [];
-    var data = JSON.parse(event.data);
-    if (data.type === 'update') {
-      var handled = false;
-      data.assets.forEach(function (asset) {
-        if (!asset.isNew) {
-          var didAccept = hmrAcceptCheck(global.parcelRequire, asset.id);
-          if (didAccept) {
-            handled = true;
-          }
-        }
-      });
-
-      // Enable HMR for CSS by default.
-      handled = handled || data.assets.every(function (asset) {
-        return asset.type === 'css' && asset.generated.js;
-      });
-      if (handled) {
-        console.clear();
-        data.assets.forEach(function (asset) {
-          hmrApply(global.parcelRequire, asset);
-        });
-        assetsToAccept.forEach(function (v) {
-          hmrAcceptRun(v[0], v[1]);
-        });
-      } else if (location.reload) {
-        // `location` global exists in a web worker context but lacks `.reload()` function.
-        location.reload();
-      }
-    }
-    if (data.type === 'reload') {
-      ws.close();
-      ws.onclose = function () {
-        location.reload();
-      };
-    }
-    if (data.type === 'error-resolved') {
-      console.log('[parcel] ✨ Error resolved');
-      removeErrorOverlay();
-    }
-    if (data.type === 'error') {
-      console.error('[parcel] 🚨  ' + data.error.message + '\n' + data.error.stack);
-      removeErrorOverlay();
-      var overlay = createErrorOverlay(data);
-      document.body.appendChild(overlay);
-    }
-  };
-}
-function removeErrorOverlay() {
-  var overlay = document.getElementById(OVERLAY_ID);
-  if (overlay) {
-    overlay.remove();
-  }
-}
-function createErrorOverlay(data) {
-  var overlay = document.createElement('div');
-  overlay.id = OVERLAY_ID;
-
-  // html encode message and stack trace
-  var message = document.createElement('div');
-  var stackTrace = document.createElement('pre');
-  message.innerText = data.error.message;
-  stackTrace.innerText = data.error.stack;
-  overlay.innerHTML = '<div style="background: black; font-size: 16px; color: white; position: fixed; height: 100%; width: 100%; top: 0px; left: 0px; padding: 30px; opacity: 0.85; font-family: Menlo, Consolas, monospace; z-index: 9999;">' + '<span style="background: red; padding: 2px 4px; border-radius: 2px;">ERROR</span>' + '<span style="top: 2px; margin-left: 5px; position: relative;">🚨</span>' + '<div style="font-size: 18px; font-weight: bold; margin-top: 20px;">' + message.innerHTML + '</div>' + '<pre>' + stackTrace.innerHTML + '</pre>' + '</div>';
-  return overlay;
-}
-function getParents(bundle, id) {
-  var modules = bundle.modules;
-  if (!modules) {
-    return [];
-  }
-  var parents = [];
-  var k, d, dep;
-  for (k in modules) {
-    for (d in modules[k][1]) {
-      dep = modules[k][1][d];
-      if (dep === id || Array.isArray(dep) && dep[dep.length - 1] === id) {
-        parents.push(k);
-      }
-    }
-  }
-  if (bundle.parent) {
-    parents = parents.concat(getParents(bundle.parent, id));
-  }
-  return parents;
-}
-function hmrApply(bundle, asset) {
-  var modules = bundle.modules;
-  if (!modules) {
-    return;
-  }
-  if (modules[asset.id] || !bundle.parent) {
-    var fn = new Function('require', 'module', 'exports', asset.generated.js);
-    asset.isNew = !modules[asset.id];
-    modules[asset.id] = [fn, asset.deps];
-  } else if (bundle.parent) {
-    hmrApply(bundle.parent, asset);
-  }
-}
-function hmrAcceptCheck(bundle, id) {
-  var modules = bundle.modules;
-  if (!modules) {
-    return;
-  }
-  if (!modules[id] && bundle.parent) {
-    return hmrAcceptCheck(bundle.parent, id);
-  }
-  if (checkedAssets[id]) {
-    return;
-  }
-  checkedAssets[id] = true;
-  var cached = bundle.cache[id];
-  assetsToAccept.push([bundle, id]);
-  if (cached && cached.hot && cached.hot._acceptCallbacks.length) {
-    return true;
-  }
-  return getParents(global.parcelRequire, id).some(function (id) {
-    return hmrAcceptCheck(global.parcelRequire, id);
-  });
-}
-function hmrAcceptRun(bundle, id) {
-  var cached = bundle.cache[id];
-  bundle.hotData = {};
-  if (cached) {
-    cached.hot.data = bundle.hotData;
-  }
-  if (cached && cached.hot && cached.hot._disposeCallbacks.length) {
-    cached.hot._disposeCallbacks.forEach(function (cb) {
-      cb(bundle.hotData);
-    });
-  }
-  delete bundle.cache[id];
-  bundle(id);
-  cached = bundle.cache[id];
-  if (cached && cached.hot && cached.hot._acceptCallbacks.length) {
-    cached.hot._acceptCallbacks.forEach(function (cb) {
-      cb();
-    });
-    return true;
-  }
-}
-},{}]},{},["../../../../.nvm/versions/node/v20.14.0/lib/node_modules/parcel-bundler/src/builtins/hmr-runtime.js","chronoglobe.js"], null)
-//# sourceMappingURL=/chronoglobe.3614615b.js.map
+},{"three":"gBK8","./OrbitControls.js":"CEkB","./textures/earth_texture4.jpg":"uhUa","./textures/civilization_115AD.png":"uVaZ","./textures/civilization_100AD.png":"ztYy","./textures/civilization_105AD.png":"ysCl","./textures/civilization_110AD.png":"yjrn","./textures/usa_texture_test.png":"EL6V"}]},{},["INW5"], null)
+//# sourceMappingURL=chronoglobe.83f87b9e.js.map

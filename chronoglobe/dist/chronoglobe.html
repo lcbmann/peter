@@ -5,85 +5,78 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Chronoglobe</title>
     <style>body {
-  color: #333;
-  background: beige;
-  margin: 0;
-  font-family: Georgia, serif;
-  overflow: hidden;
-}
-
-#controls {
-  z-index: 10;
-  background: #f5f5dce6;
-  border-bottom: 1px solid #ccc;
-  justify-content: flex-start;
-  align-items: center;
-  width: 100%;
-  padding: 5px 20px;
-  font-family: Georgia, serif;
-  display: flex;
-  position: absolute;
-  top: 0;
-  box-shadow: 0 2px 5px #0000001a;
-}
-
-#timeline {
-  appearance: none;
-  opacity: .8;
-  background: #ddd;
-  border-radius: 5px;
-  width: 60%;
-  height: 20px;
-  margin-right: 10px;
-  overflow: hidden;
-}
-
-#timeline::-webkit-slider-thumb {
-  appearance: none;
-  cursor: pointer;
-  background: #8b4513;
-  border: none;
-  border-radius: 50%;
-  width: 15px;
-  height: 15px;
-  box-shadow: 0 0 2px #0009;
-}
-
-#timeline::-moz-range-thumb {
-  cursor: pointer;
-  background: #8b4513;
-  border: none;
-  border-radius: 50%;
-  width: 15px;
-  height: 15px;
-  box-shadow: 0 0 2px #0009;
-}
-
-#yearInput {
-  background: #fdf5e6;
-  border: 1px solid #ccc;
-  border-radius: 5px;
-  width: 70px;
-  margin-right: 10px;
-  padding: 3px;
-  font-size: 14px;
-}
-
-#yearLabelContainer {
-  align-items: center;
-  display: flex;
-}
-
-#yearLabel {
-  color: #8b4513;
-  margin-left: 10px;
-  font-size: 16px;
-}
-
-canvas {
-  display: block;
-}
-</style>
+            margin: 0;
+            overflow: hidden;
+            font-family: 'Georgia', serif;
+            background: #f5f5dc;
+            color: #333;
+        }
+        #controls {
+            position: absolute;
+            top: 0;
+            width: 100%;
+            background: rgba(245, 245, 220, 0.9);
+            padding: 5px 20px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+            display: flex;
+            justify-content: flex-start;
+            align-items: center;
+            z-index: 10;
+            font-family: 'Georgia', serif;
+            border-bottom: 1px solid #ccc;
+        }
+        #timeline {
+            width: 60%;
+            height: 20px;
+            -webkit-appearance: none;
+            appearance: none;
+            background: #ddd;
+            border-radius: 5px;
+            overflow: hidden;
+            margin-right: 10px;
+            opacity: 0.8;
+        }
+        #timeline::-webkit-slider-thumb {
+            -webkit-appearance: none;
+            appearance: none;
+            width: 15px;
+            height: 15px;
+            background: #8b4513;
+            border: none;
+            border-radius: 50%;
+            cursor: pointer;
+            box-shadow: 0 0 2px rgba(0, 0, 0, 0.6);
+        }
+        #timeline::-moz-range-thumb {
+            width: 15px;
+            height: 15px;
+            background: #8b4513;
+            border: none;
+            border-radius: 50%;
+            cursor: pointer;
+            box-shadow: 0 0 2px rgba(0, 0, 0, 0.6);
+        }
+        #yearInput {
+            width: 70px;
+            font-size: 14px;
+            padding: 3px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            background: #fdf5e6;
+            margin-right: 10px;
+        }
+        #yearLabelContainer {
+            display: flex;
+            align-items: center;
+        }
+        #yearLabel {
+            font-size: 16px;
+            margin-left: 10px;
+            color: #8b4513;
+        }
+        canvas {
+            display: block;
+        }</style>
 </head>
 <body>
     <div id="controls">
@@ -94,6 +87,6 @@ canvas {
             <span id="yearLabel">0 AD</span>
         </div>
     </div>
-    <script src="/chronoglobe.99636340.js" defer=""></script>
+    <script type="module" src="/chronoglobe.3614615b.js"></script>
 </body>
 </html>
