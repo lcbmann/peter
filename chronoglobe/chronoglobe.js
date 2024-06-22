@@ -1,15 +1,23 @@
 import * as THREE from 'three';
 import { OrbitControls } from './OrbitControls.js';
 import earthTextureSrc from './textures/earth_texture4.jpg';
-import civilization_1000BC from './textures/civilization_1000BC.jpg';
-import civilization_500BC from './textures/civilization_500BC.jpg';
+import civilization_115AD from './textures/civilization_115AD.png';
+import civilization_100AD from './textures/civilization_100AD.png';
+import civilization_105AD from './textures/civilization_105AD.png';
+import civilization_110AD from './textures/civilization_110AD.png';
+import civilization_2024AD from './textures/usa_texture_test.png';
 // Import other images similarly...
 
 const civilizationMaps = {
-    '-1000': civilization_1000BC,
-    '-500': civilization_500BC,
+    '115': civilization_115AD,
+    '2024': civilization_2024AD,
+    '100': civilization_100AD,
+    '105': civilization_105AD,
+    '110': civilization_110AD,
     // Add other mappings...
 };
+
+const textureCache = {};
 
 let scene, camera, renderer, controls, raycaster, globe, textureCanvas, context;
 
@@ -44,14 +52,12 @@ function init() {
     textureCanvas.width = 2048;
     textureCanvas.height = 1024;
     context = textureCanvas.getContext('2d');
-    drawInitialTexture();
 
-    const texture = new THREE.CanvasTexture(textureCanvas);
-
-    const geometry = new THREE.SphereGeometry(3, 50, 50);
-    const material = new THREE.MeshStandardMaterial({ map: texture });
-    globe = new THREE.Mesh(geometry, material);
-    scene.add(globe);
+    preloadTextures().then(() => {
+        drawInitialTexture();
+        initGlobe();
+        animate();
+    });
 
     controls = new OrbitControls(camera, renderer.domElement);
     controls.enableDamping = true;
@@ -67,53 +73,66 @@ function init() {
     raycaster = new THREE.Raycaster();
 
     renderer.domElement.addEventListener('click', onClick, false);
-
-    animate();
 }
 
-function drawInitialTexture() {
+function preloadTextures() {
+    const promises = Object.keys(civilizationMaps).map(yearKey => {
+        return new Promise((resolve, reject) => {
+            const img = new Image();
+            img.src = civilizationMaps[yearKey];
+            img.onload = () => {
+                textureCache[yearKey] = img;
+                resolve();
+            };
+            img.onerror = reject;
+        });
+    });
+
+    return Promise.all(promises);
+}
+
+function drawInitialTexture(callback) {
     const baseMap = new Image();
     baseMap.src = earthTextureSrc;
     console.log('Attempting to load image:', baseMap.src);
 
     baseMap.onload = () => {
         console.log('Image loaded successfully');
+        context.clearRect(0, 0, textureCanvas.width, textureCanvas.height);
         context.drawImage(baseMap, 0, 0, textureCanvas.width, textureCanvas.height);
-        updateTexture();
+        globe.material.map.needsUpdate = true;
+        if (callback) callback();
     };
 
     baseMap.onerror = (error) => {
         console.error('Error loading base map:', error);
+        if (callback) callback(error);
     };
-}
-
-function updateTexture() {
-    context.fillStyle = 'rgba(255, 0, 0, 0.5)';
-    context.fillRect(100, 100, 200, 100);
-    globe.material.map.needsUpdate = true;
 }
 
 function drawTextureForYear(selectedYear) {
     const yearKey = selectedYear.toString();
 
-    if (civilizationMaps[yearKey]) {
-        const civilizationMapSrc = civilizationMaps[yearKey];
-        const civilizationMap = new Image();
-        civilizationMap.src = civilizationMapSrc;
-        console.log('Attempting to load image for year:', civilizationMap.src);
-
-        civilizationMap.onload = () => {
-            console.log('Image loaded successfully for year:', selectedYear);
+    if (textureCache[yearKey]) {
+        const civilizationMap = textureCache[yearKey];
+        console.log('Using cached image for year:', yearKey);
+        context.clearRect(0, 0, textureCanvas.width, textureCanvas.height);
+        drawInitialTexture(() => {
             context.drawImage(civilizationMap, 0, 0, textureCanvas.width, textureCanvas.height);
             globe.material.map.needsUpdate = true;
-        };
-
-        civilizationMap.onerror = (error) => {
-            console.error('Error loading civilization map for year:', error);
-        };
+        });
     } else {
         console.error('No map available for year:', selectedYear);
+        drawInitialTexture();
     }
+}
+
+function initGlobe() {
+    const texture = new THREE.CanvasTexture(textureCanvas);
+    const geometry = new THREE.SphereGeometry(3, 50, 50);
+    const material = new THREE.MeshStandardMaterial({ map: texture });
+    globe = new THREE.Mesh(geometry, material);
+    scene.add(globe);
 }
 
 function onClick(event) {
@@ -145,16 +164,25 @@ const timeline = document.getElementById('timeline');
 const yearInput = document.getElementById('yearInput');
 const yearLabel = document.getElementById('yearLabel');
 
+function updateYearLabel(selectedYear) {
+    const year = parseInt(selectedYear, 10);
+    if (year < 0) {
+        yearLabel.innerText = `${Math.abs(year)} BC`;
+    } else {
+        yearLabel.innerText = `${year} AD`;
+    }
+}
+
 timeline.addEventListener('input', (event) => {
     const selectedYear = event.target.value;
     yearInput.value = selectedYear;
-    yearLabel.innerText = selectedYear;
+    updateYearLabel(selectedYear);
     drawTextureForYear(selectedYear);
 });
 
 yearInput.addEventListener('change', (event) => {
     const selectedYear = event.target.value;
     timeline.value = selectedYear;
-    yearLabel.innerText = selectedYear;
+    updateYearLabel(selectedYear);
     drawTextureForYear(selectedYear);
 });

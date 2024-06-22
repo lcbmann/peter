@@ -4,34 +4,96 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Chronoglobe</title>
-    <style>body { margin: 0; overflow: hidden; }
-        #controls {
-            position: absolute;
-            top: 0;
-            width: 100%;
-            background: rgba(255, 255, 255, 0.8);
-            padding: 10px;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-        }
-        #timeline {
-            width: 80%;
-            height: 30px;
-        }
-        #yearInput {
-            width: 100px;
-            font-size: 16px;
-            padding: 5px;
-        }
-        canvas { display: block; }</style>
+    <style>body {
+  color: #333;
+  background: beige;
+  margin: 0;
+  font-family: Georgia, serif;
+  overflow: hidden;
+}
+
+#controls {
+  z-index: 10;
+  background: #f5f5dce6;
+  border-bottom: 1px solid #ccc;
+  justify-content: flex-start;
+  align-items: center;
+  width: 100%;
+  padding: 5px 20px;
+  font-family: Georgia, serif;
+  display: flex;
+  position: absolute;
+  top: 0;
+  box-shadow: 0 2px 5px #0000001a;
+}
+
+#timeline {
+  appearance: none;
+  opacity: .8;
+  background: #ddd;
+  border-radius: 5px;
+  width: 60%;
+  height: 20px;
+  margin-right: 10px;
+  overflow: hidden;
+}
+
+#timeline::-webkit-slider-thumb {
+  appearance: none;
+  cursor: pointer;
+  background: #8b4513;
+  border: none;
+  border-radius: 50%;
+  width: 15px;
+  height: 15px;
+  box-shadow: 0 0 2px #0009;
+}
+
+#timeline::-moz-range-thumb {
+  cursor: pointer;
+  background: #8b4513;
+  border: none;
+  border-radius: 50%;
+  width: 15px;
+  height: 15px;
+  box-shadow: 0 0 2px #0009;
+}
+
+#yearInput {
+  background: #fdf5e6;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  width: 70px;
+  margin-right: 10px;
+  padding: 3px;
+  font-size: 14px;
+}
+
+#yearLabelContainer {
+  align-items: center;
+  display: flex;
+}
+
+#yearLabel {
+  color: #8b4513;
+  margin-left: 10px;
+  font-size: 16px;
+}
+
+canvas {
+  display: block;
+}
+</style>
 </head>
 <body>
     <div id="controls">
-        <input type="range" id="timeline" min="-1000" max="500" step="100" value="0" title="Timeline">
-        <input type="number" id="yearInput" min="-1000" max="500" step="100" value="0" title="Year Input">
-        <label for="timeline">Year: <span id="yearLabel">0</span></label>
+        <input type="range" id="timeline" min="95" max="115" step="5" value="0" title="Timeline">
+        <input type="number" id="yearInput" min="95" max="2024" step="5" value="0" title="Year Input">
+        <div id="yearLabelContainer">
+            <label for="yearInput">Year:</label>
+            <span id="yearLabel">0 AD</span>
+        </div>
     </div>
-    <script type="module" src="chronoglobe.5e817011.js"></script>
+    <script src="/chronoglobe.99636340.js" defer=""></script>
 </body>
 </html>
