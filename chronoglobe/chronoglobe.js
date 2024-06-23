@@ -1,18 +1,26 @@
 import * as THREE from 'three';
 import { OrbitControls } from './OrbitControls.js';
 import earthTextureSrc from './textures/earth_texture4.jpg';
-import civilization_115AD from './textures/civilization_115AD.png';
-import civilization_100AD from './textures/civilization_100AD.png';
-import civilization_105AD from './textures/civilization_105AD.png';
-import civilization_110AD from './textures/civilization_110AD.png';
-import civilization_2024AD from './textures/usa_texture_test.png';
+import civilization_359BC from './textures/civilization_359BC.png';
+import civilization_338BC from './textures/civilization_338BC.png';
+import civilization_335BC from './textures/civilization_335BC.png';
+import civilization_333BC from './textures/civilization_333BC.png';
+import civilization_331BC from './textures/civilization_331BC.png';
+import civilization_330BC from './textures/civilization_330BC.png';
+import civilization_327BC from './textures/civilization_327BC.png';
+import civilization_325BC from './textures/civilization_325BC.png';
+import civilization_323BC from './textures/civilization_323BC.png';
 
 const civilizationMaps = {
-    '115': civilization_115AD,
-    '2024': civilization_2024AD,
-    '100': civilization_100AD,
-    '105': civilization_105AD,
-    '110': civilization_110AD,
+    '359': civilization_359BC,
+    '338': civilization_338BC,
+    '335': civilization_335BC,
+    '333': civilization_333BC,
+    '331': civilization_331BC,
+    '330': civilization_330BC,
+    '327': civilization_327BC,
+    '325': civilization_325BC,
+    '323': civilization_323BC,                                                                      
 };
 
 const markerData = {
@@ -133,9 +141,10 @@ function drawTextureForYear(selectedYear) {
         });
     } else {
         console.error('No map available for year:', selectedYear);
-        drawInitialTexture(() => drawMarkersForYear(yearKey));
+        drawMarkersForYear(yearKey);
     }
 }
+
 
 function drawMarkersForYear(yearKey) {
     markers.forEach(marker => scene.remove(marker));
@@ -240,7 +249,8 @@ function onClick(event) {
             const marker = intersects.find(intersect => markers.includes(intersect.object.parent));
             if (marker) {
                 const markerText = marker.object.parent.userData.text;
-                createInfoWindow("Marker Info", markerText);            }
+                createInfoWindow("Marker Info", markerText);
+            }
         }
     }
 }
