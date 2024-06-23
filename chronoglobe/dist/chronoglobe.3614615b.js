@@ -39114,8 +39114,8 @@ function init() {
   pointLight.position.set(-10, -10, -10);
   scene.add(pointLight);
   textureCanvas = document.createElement('canvas');
-  textureCanvas.width = 2048;
-  textureCanvas.height = 1024;
+  textureCanvas.width = 7680;
+  textureCanvas.height = 3840;
   context = textureCanvas.getContext('2d');
   preloadTextures().then(function () {
     drawInitialTexture();
@@ -39249,6 +39249,24 @@ function initGlobe() {
   globe = new THREE.Mesh(geometry, material);
   scene.add(globe);
 }
+function createInfoWindow(title, text) {
+  // Remove existing info window
+  var existingWindow = document.querySelector('.info-window');
+  if (existingWindow) {
+    existingWindow.remove();
+  }
+
+  // Create new info window
+  var infoWindow = document.createElement('div');
+  infoWindow.className = 'info-window';
+  infoWindow.innerHTML = "\n        <h2>".concat(title, "</h2>\n        <p>").concat(text, "</p>\n        <span class=\"close-btn\">X</span>\n    ");
+  document.body.appendChild(infoWindow);
+
+  // Close button functionality
+  infoWindow.querySelector('.close-btn').addEventListener('click', function () {
+    infoWindow.remove();
+  });
+}
 function onClick(event) {
   var mouse = new THREE.Vector2();
   mouse.x = event.clientX / window.innerWidth * 2 - 1;
@@ -39265,7 +39283,7 @@ function onClick(event) {
       });
       if (marker) {
         var markerText = marker.object.parent.userData.text;
-        alert(markerText);
+        createInfoWindow("Marker Info", markerText);
       }
     }
   }
@@ -39324,7 +39342,7 @@ var parent = module.bundle.parent;
 if ((!parent || !parent.isParcelRequire) && typeof WebSocket !== 'undefined') {
   var hostname = "" || location.hostname;
   var protocol = location.protocol === 'https:' ? 'wss' : 'ws';
-  var ws = new WebSocket(protocol + '://' + hostname + ':' + "55076" + '/');
+  var ws = new WebSocket(protocol + '://' + hostname + ':' + "53305" + '/');
   ws.onmessage = function (event) {
     checkedAssets = {};
     assetsToAccept = [];

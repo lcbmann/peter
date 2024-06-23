@@ -58,8 +58,8 @@ function init() {
     scene.add(pointLight);
 
     textureCanvas = document.createElement('canvas');
-    textureCanvas.width = 2048;
-    textureCanvas.height = 1024;
+    textureCanvas.width = 7680;
+    textureCanvas.height = 3840;
     context = textureCanvas.getContext('2d');
 
     preloadTextures().then(() => {
@@ -199,6 +199,30 @@ function initGlobe() {
     scene.add(globe);
 }
 
+function createInfoWindow(title, text) {
+    // Remove existing info window
+    const existingWindow = document.querySelector('.info-window');
+    if (existingWindow) {
+        existingWindow.remove();
+    }
+
+    // Create new info window
+    const infoWindow = document.createElement('div');
+    infoWindow.className = 'info-window';
+    infoWindow.innerHTML = `
+        <h2>${title}</h2>
+        <p>${text}</p>
+        <span class="close-btn">X</span>
+    `;
+
+    document.body.appendChild(infoWindow);
+
+    // Close button functionality
+    infoWindow.querySelector('.close-btn').addEventListener('click', function() {
+        infoWindow.remove();
+    });
+}
+
 function onClick(event) {
     const mouse = new THREE.Vector2();
     mouse.x = (event.clientX / window.innerWidth) * 2 - 1;
@@ -216,8 +240,7 @@ function onClick(event) {
             const marker = intersects.find(intersect => markers.includes(intersect.object.parent));
             if (marker) {
                 const markerText = marker.object.parent.userData.text;
-                alert(markerText);
-            }
+                createInfoWindow("Marker Info", markerText);            }
         }
     }
 }

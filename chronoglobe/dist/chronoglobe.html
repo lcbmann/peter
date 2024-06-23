@@ -76,6 +76,25 @@
         }
         canvas {
             display: block;
+        }
+        .info-window {
+            position: absolute;
+            top: 100px;
+            right: 20px;
+            width: 300px;
+            background: white;
+            box-shadow: 0 0 10px rgba(0,0,0,0.5);
+            padding: 20px;
+            z-index: 100;
+        }
+        .info-window h2 {
+            margin-top: 0;
+        }
+        .info-window .close-btn {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            cursor: pointer;
         }</style>
 </head>
 <body>
@@ -87,6 +106,8 @@
             <span id="yearLabel">0 AD</span>
         </div>
     </div>
+
+    
     <script type="module" src="/chronoglobe.3614615b.js"></script>
 </body>
 </html>
