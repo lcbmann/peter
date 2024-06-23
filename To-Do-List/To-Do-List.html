@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>A To-Do-List Manager - by david-556</title>
+    <link rel="stylesheet" href="To-Do-List.css">
+</head>
+<body>
+    <div class="navigation">
+        <ul class="navigationElements"> 
+            <a href="#home" id="homeLink">Home</a>
+            <a href="#create" id="createLink">Create To-Do-List</a>
+            <a href="#about">About</a>
+        </ul>
+    </div>
+
+    <div class="home"  id="home">
+        <p id="Welcome">Welcome to this To-Do-Manager!</p>
+        <p>Here you can create your own To-Do-List 
+            by clicking on "Create To-Do-List"</p>
+    </div>
+
+    <div class="create" id="create" style="display: none;">
+        <h1>Create your own To-Do-List now!</h1>
+        <button id="createButton">Create / Restore</button>
+        <table id="activities" style="display: none; margin-top: 20px">
+            <thead>
+                <tr>
+                    <th>Activity</th>
+                    <th>Due Date</th>
+                    <th>Notes</th>
+                </tr>
+            </thead>
+            <tbody id="tableBody">
+            </tbody>
+        </table>
+        <button id="addRow" style="display: none; margin-top: 20px">Add</button>
+    </div>
+
+    <script src="To-Do-List.js"></script>
+</body>
+</html>

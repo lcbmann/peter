@@ -1,0 +1,94 @@
+
+.navigation {
+    background-color: white;
+    font-weight: 300;
+    font-size: large;
+    margin-right: auto;
+    overflow: hidden
+}
+
+.navigationElements li {
+    display: inline; 
+}
+
+.navigationElements a {
+    color: rgb(62, 3, 3);
+    font-family: Arial, Helvetica, sans-serif;
+    text-decoration: none;
+    background-color: white;
+    display: inline-block;
+    text-align: center;
+    padding: 20px 16px;
+}
+
+.navigationElements a + a {
+    margin-left: 20px;
+}
+
+.navigationElements a:hover {
+    color:red; 
+    background-color: grey;
+}
+
+.navigation::after {
+    content: "";
+    display: table;
+    clear: both;
+    background-color: rgb(62, 3, 3);
+}
+
+.home, .create {
+    text-align: center;
+    font-size: large;
+    font-weight: bold;
+    font-family: Arial, Helvetica, sans-serif;
+    margin-top: 100px;
+}
+
+#createButton {
+    font-size: large; 
+    font-weight: large; 
+    font-family: Arial, Helvetica, sans-serif;
+    margin-top: 50px; 
+    border: none; 
+    cursor: pointer; 
+}
+
+#createButton:hover {
+    font-size: large; 
+    font-weight: large; 
+    font-family: Arial, Helvetica, sans-serif;
+    margin-top: 50px;
+    background-color: grey; 
+}
+
+#Welcome {
+    color: red
+}
+
+body {
+    background-color: darkred;
+}
+
+table {
+    width: 100%; 
+    margin-top: 20px; 
+}
+
+table, th, td {
+    border: 1px solid black; 
+}
+
+th, td {
+    padding: 10px; 
+    text-align: left; 
+}
+
+#addRow {
+    text-align: center;
+}
+
+textarea {
+    width: 100%; 
+    height: 60px; 
+}
