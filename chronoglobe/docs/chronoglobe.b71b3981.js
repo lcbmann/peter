@@ -117,7 +117,7 @@ parcelRequire = (function (modules, cache, entry, globalName) {
   }
 
   return newRequire;
-})({"node_modules/three/build/three.module.js":[function(require,module,exports) {
+})({"gBK8":[function(require,module,exports) {
 var define;
 "use strict";
 
@@ -38054,7 +38054,7 @@ if (typeof window !== 'undefined') {
     window.__THREE__ = REVISION;
   }
 }
-},{}],"OrbitControls.js":[function(require,module,exports) {
+},{}],"CEkB":[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -39033,27 +39033,27 @@ var OrbitControls = exports.OrbitControls = /*#__PURE__*/function (_EventDispatc
   _inherits(OrbitControls, _EventDispatcher);
   return _createClass(OrbitControls);
 }(_three.EventDispatcher);
-},{"three":"node_modules/three/build/three.module.js"}],"textures/earth_texture4.jpg":[function(require,module,exports) {
-module.exports = "/earth_texture4.b6f43ffb.jpg";
-},{}],"textures/civilization_359BC.png":[function(require,module,exports) {
-module.exports = "/civilization_359BC.ac20869c.png";
-},{}],"textures/civilization_338BC.png":[function(require,module,exports) {
-module.exports = "/civilization_338BC.a9e9aecf.png";
-},{}],"textures/civilization_335BC.png":[function(require,module,exports) {
-module.exports = "/civilization_335BC.a85c2889.png";
-},{}],"textures/civilization_333BC.png":[function(require,module,exports) {
-module.exports = "/civilization_333BC.175a71c2.png";
-},{}],"textures/civilization_331BC.png":[function(require,module,exports) {
-module.exports = "/civilization_331BC.f000cfd9.png";
-},{}],"textures/civilization_330BC.png":[function(require,module,exports) {
-module.exports = "/civilization_330BC.5dd0233d.png";
-},{}],"textures/civilization_327BC.png":[function(require,module,exports) {
-module.exports = "/civilization_327BC.2c5759fb.png";
-},{}],"textures/civilization_325BC.png":[function(require,module,exports) {
-module.exports = "/civilization_325BC.a648ae8d.png";
-},{}],"textures/civilization_323BC.png":[function(require,module,exports) {
-module.exports = "/civilization_323BC.8bddf4e4.png";
-},{}],"chronoglobe.js":[function(require,module,exports) {
+},{"three":"gBK8"}],"uhUa":[function(require,module,exports) {
+module.exports = "earth_texture4.7818df9d.jpg";
+},{}],"AcAK":[function(require,module,exports) {
+module.exports = "civilization_359BC.8fd8cd96.png";
+},{}],"YKyA":[function(require,module,exports) {
+module.exports = "civilization_338BC.8fd8cd96.png";
+},{}],"GXsS":[function(require,module,exports) {
+module.exports = "civilization_335BC.f9b64def.png";
+},{}],"Inhg":[function(require,module,exports) {
+module.exports = "civilization_333BC.b2fbe156.png";
+},{}],"rVgG":[function(require,module,exports) {
+module.exports = "civilization_331BC.a0ef8e1c.png";
+},{}],"CMaQ":[function(require,module,exports) {
+module.exports = "civilization_330BC.9b0e4388.png";
+},{}],"Cq3A":[function(require,module,exports) {
+module.exports = "civilization_327BC.b56f71fd.png";
+},{}],"IRRK":[function(require,module,exports) {
+module.exports = "civilization_325BC.f1e786fd.png";
+},{}],"qEa8":[function(require,module,exports) {
+module.exports = "civilization_323BC.09da8f4b.png";
+},{}],"INW5":[function(require,module,exports) {
 "use strict";
 
 var THREE = _interopRequireWildcard(require("three"));
@@ -39380,174 +39380,5 @@ yearInput.addEventListener('change', function (event) {
   updateYearLabel(selectedYear);
   drawTextureForYear(selectedYear);
 });
-},{"three":"node_modules/three/build/three.module.js","./OrbitControls.js":"OrbitControls.js","./textures/earth_texture4.jpg":"textures/earth_texture4.jpg","./textures/civilization_359BC.png":"textures/civilization_359BC.png","./textures/civilization_338BC.png":"textures/civilization_338BC.png","./textures/civilization_335BC.png":"textures/civilization_335BC.png","./textures/civilization_333BC.png":"textures/civilization_333BC.png","./textures/civilization_331BC.png":"textures/civilization_331BC.png","./textures/civilization_330BC.png":"textures/civilization_330BC.png","./textures/civilization_327BC.png":"textures/civilization_327BC.png","./textures/civilization_325BC.png":"textures/civilization_325BC.png","./textures/civilization_323BC.png":"textures/civilization_323BC.png"}],"../../../../.nvm/versions/node/v20.14.0/lib/node_modules/parcel-bundler/src/builtins/hmr-runtime.js":[function(require,module,exports) {
-var global = arguments[3];
-var OVERLAY_ID = '__parcel__error__overlay__';
-var OldModule = module.bundle.Module;
-function Module(moduleName) {
-  OldModule.call(this, moduleName);
-  this.hot = {
-    data: module.bundle.hotData,
-    _acceptCallbacks: [],
-    _disposeCallbacks: [],
-    accept: function (fn) {
-      this._acceptCallbacks.push(fn || function () {});
-    },
-    dispose: function (fn) {
-      this._disposeCallbacks.push(fn);
-    }
-  };
-  module.bundle.hotData = null;
-}
-module.bundle.Module = Module;
-var checkedAssets, assetsToAccept;
-var parent = module.bundle.parent;
-if ((!parent || !parent.isParcelRequire) && typeof WebSocket !== 'undefined') {
-  var hostname = "" || location.hostname;
-  var protocol = location.protocol === 'https:' ? 'wss' : 'ws';
-  var ws = new WebSocket(protocol + '://' + hostname + ':' + "53426" + '/');
-  ws.onmessage = function (event) {
-    checkedAssets = {};
-    assetsToAccept = [];
-    var data = JSON.parse(event.data);
-    if (data.type === 'update') {
-      var handled = false;
-      data.assets.forEach(function (asset) {
-        if (!asset.isNew) {
-          var didAccept = hmrAcceptCheck(global.parcelRequire, asset.id);
-          if (didAccept) {
-            handled = true;
-          }
-        }
-      });
-
-      // Enable HMR for CSS by default.
-      handled = handled || data.assets.every(function (asset) {
-        return asset.type === 'css' && asset.generated.js;
-      });
-      if (handled) {
-        console.clear();
-        data.assets.forEach(function (asset) {
-          hmrApply(global.parcelRequire, asset);
-        });
-        assetsToAccept.forEach(function (v) {
-          hmrAcceptRun(v[0], v[1]);
-        });
-      } else if (location.reload) {
-        // `location` global exists in a web worker context but lacks `.reload()` function.
-        location.reload();
-      }
-    }
-    if (data.type === 'reload') {
-      ws.close();
-      ws.onclose = function () {
-        location.reload();
-      };
-    }
-    if (data.type === 'error-resolved') {
-      console.log('[parcel] ✨ Error resolved');
-      removeErrorOverlay();
-    }
-    if (data.type === 'error') {
-      console.error('[parcel] 🚨  ' + data.error.message + '\n' + data.error.stack);
-      removeErrorOverlay();
-      var overlay = createErrorOverlay(data);
-      document.body.appendChild(overlay);
-    }
-  };
-}
-function removeErrorOverlay() {
-  var overlay = document.getElementById(OVERLAY_ID);
-  if (overlay) {
-    overlay.remove();
-  }
-}
-function createErrorOverlay(data) {
-  var overlay = document.createElement('div');
-  overlay.id = OVERLAY_ID;
-
-  // html encode message and stack trace
-  var message = document.createElement('div');
-  var stackTrace = document.createElement('pre');
-  message.innerText = data.error.message;
-  stackTrace.innerText = data.error.stack;
-  overlay.innerHTML = '<div style="background: black; font-size: 16px; color: white; position: fixed; height: 100%; width: 100%; top: 0px; left: 0px; padding: 30px; opacity: 0.85; font-family: Menlo, Consolas, monospace; z-index: 9999;">' + '<span style="background: red; padding: 2px 4px; border-radius: 2px;">ERROR</span>' + '<span style="top: 2px; margin-left: 5px; position: relative;">🚨</span>' + '<div style="font-size: 18px; font-weight: bold; margin-top: 20px;">' + message.innerHTML + '</div>' + '<pre>' + stackTrace.innerHTML + '</pre>' + '</div>';
-  return overlay;
-}
-function getParents(bundle, id) {
-  var modules = bundle.modules;
-  if (!modules) {
-    return [];
-  }
-  var parents = [];
-  var k, d, dep;
-  for (k in modules) {
-    for (d in modules[k][1]) {
-      dep = modules[k][1][d];
-      if (dep === id || Array.isArray(dep) && dep[dep.length - 1] === id) {
-        parents.push(k);
-      }
-    }
-  }
-  if (bundle.parent) {
-    parents = parents.concat(getParents(bundle.parent, id));
-  }
-  return parents;
-}
-function hmrApply(bundle, asset) {
-  var modules = bundle.modules;
-  if (!modules) {
-    return;
-  }
-  if (modules[asset.id] || !bundle.parent) {
-    var fn = new Function('require', 'module', 'exports', asset.generated.js);
-    asset.isNew = !modules[asset.id];
-    modules[asset.id] = [fn, asset.deps];
-  } else if (bundle.parent) {
-    hmrApply(bundle.parent, asset);
-  }
-}
-function hmrAcceptCheck(bundle, id) {
-  var modules = bundle.modules;
-  if (!modules) {
-    return;
-  }
-  if (!modules[id] && bundle.parent) {
-    return hmrAcceptCheck(bundle.parent, id);
-  }
-  if (checkedAssets[id]) {
-    return;
-  }
-  checkedAssets[id] = true;
-  var cached = bundle.cache[id];
-  assetsToAccept.push([bundle, id]);
-  if (cached && cached.hot && cached.hot._acceptCallbacks.length) {
-    return true;
-  }
-  return getParents(global.parcelRequire, id).some(function (id) {
-    return hmrAcceptCheck(global.parcelRequire, id);
-  });
-}
-function hmrAcceptRun(bundle, id) {
-  var cached = bundle.cache[id];
-  bundle.hotData = {};
-  if (cached) {
-    cached.hot.data = bundle.hotData;
-  }
-  if (cached && cached.hot && cached.hot._disposeCallbacks.length) {
-    cached.hot._disposeCallbacks.forEach(function (cb) {
-      cb(bundle.hotData);
-    });
-  }
-  delete bundle.cache[id];
-  bundle(id);
-  cached = bundle.cache[id];
-  if (cached && cached.hot && cached.hot._acceptCallbacks.length) {
-    cached.hot._acceptCallbacks.forEach(function (cb) {
-      cb();
-    });
-    return true;
-  }
-}
-},{}]},{},["../../../../.nvm/versions/node/v20.14.0/lib/node_modules/parcel-bundler/src/builtins/hmr-runtime.js","chronoglobe.js"], null)
-//# sourceMappingURL=/chronoglobe.3614615b.js.map
+},{"three":"gBK8","./OrbitControls.js":"CEkB","./textures/earth_texture4.jpg":"uhUa","./textures/civilization_359BC.png":"AcAK","./textures/civilization_338BC.png":"YKyA","./textures/civilization_335BC.png":"GXsS","./textures/civilization_333BC.png":"Inhg","./textures/civilization_331BC.png":"rVgG","./textures/civilization_330BC.png":"CMaQ","./textures/civilization_327BC.png":"Cq3A","./textures/civilization_325BC.png":"IRRK","./textures/civilization_323BC.png":"qEa8"}]},{},["INW5"], null)
+//# sourceMappingURL=chronoglobe.b71b3981.js.map

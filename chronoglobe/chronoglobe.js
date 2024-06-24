@@ -12,28 +12,33 @@ import civilization_325BC from './textures/civilization_325BC.png';
 import civilization_323BC from './textures/civilization_323BC.png';
 
 const civilizationMaps = {
-    '359': civilization_359BC,
-    '338': civilization_338BC,
-    '335': civilization_335BC,
-    '333': civilization_333BC,
-    '331': civilization_331BC,
-    '330': civilization_330BC,
-    '327': civilization_327BC,
-    '325': civilization_325BC,
-    '323': civilization_323BC,                                                                      
+    '-359': civilization_359BC,
+    '-338': civilization_338BC,
+    '-335': civilization_335BC,
+    '-333': civilization_333BC,
+    '-331': civilization_331BC,
+    '-330': civilization_330BC,
+    '-327': civilization_327BC,
+    '-325': civilization_325BC,
+    '-323': civilization_323BC,                                                                      
 };
 
 const markerData = {
     '115': [
-        { position: { lat: 41.5, lon: 12.9 }, text: 'Marker 1 in 115 AD' },
-        { position: { lat: 35.5, lon: 20.9 }, text: 'Marker 2 in 115 AD' },
+        { position: { lat: 41.5, lon: 12.9 }, title: 'Marker 1', text: 'Marker 1 in 115 AD' },
+        { position: { lat: 35.5, lon: 20.9 }, title: 'Marker 2', text: 'Marker 2 in 115 AD' },
     ],
     '2024': [
-        { position: { lat: 34.0522, lon: -118.2437 }, text: 'Marker in 2024 AD' },
+        { position: { lat: 34.0522, lon: -118.2437 }, title: 'Marker 2024', text: 'Marker in 2024 AD' },
     ],
+    '-359': [ 
+        { position: { lat: 40.76, lon: 22.53 }, title: 'Capital City', text: 'The Capital City of Macedon' }
+    ]
 };
 
+
 const textureCache = {};
+const downscaleFactor = 4; // Downscale factor for civilization textures
 
 let scene, camera, renderer, controls, raycaster, globe, textureCanvas, context;
 let markers = [];
@@ -54,7 +59,7 @@ function init() {
         camera.updateProjectionMatrix();
     });
 
-    const ambientLight = new THREE.AmbientLight(0xffffff, 0.2);
+    const ambientLight = new THREE.AmbientLight(0xffffff, 1);
     scene.add(ambientLight);
 
     const directionalLight = new THREE.DirectionalLight(0xffffff, 1);
@@ -71,11 +76,11 @@ function init() {
     context = textureCanvas.getContext('2d');
 
     preloadTextures().then(() => {
-        drawInitialTexture();
-        initGlobe();
-        animate();
+        drawInitialTexture(() => {
+            initGlobe();
+            animate();
+        });
     });
-
     controls = new OrbitControls(camera, renderer.domElement);
     controls.enableDamping = true;
     controls.dampingFactor = 0.25;
@@ -98,8 +103,22 @@ function preloadTextures() {
             const img = new Image();
             img.src = civilizationMaps[yearKey];
             img.onload = () => {
-                textureCache[yearKey] = img;
-                resolve();
+                const tempCanvas = document.createElement('canvas');
+                const tempContext = tempCanvas.getContext('2d');
+                tempCanvas.width = img.width / downscaleFactor;
+                tempCanvas.height = img.height / downscaleFactor;
+                tempContext.drawImage(img, 0, 0, tempCanvas.width, tempCanvas.height);
+
+                // Apply image processing (e.g., saturation, contrast) here
+                applyImageProcessing(tempContext, tempCanvas.width, tempCanvas.height);
+
+                const downscaledImg = new Image();
+                downscaledImg.src = tempCanvas.toDataURL();
+                downscaledImg.onload = () => {
+                    textureCache[yearKey] = downscaledImg;
+                    resolve();
+                };
+                downscaledImg.onerror = reject;
             };
             img.onerror = reject;
         });
@@ -108,16 +127,39 @@ function preloadTextures() {
     return Promise.all(promises);
 }
 
+function applyImageProcessing(context, width, height) {
+    const imageData = context.getImageData(0, 0, width, height);
+    const data = imageData.data;
+
+    const contrast = 1.2; // Example contrast adjustment factor
+    const saturation = 1.5; // Example saturation adjustment factor
+
+    for (let i = 0; i < data.length; i += 4) {
+        // Apply contrast
+        for (let j = 0; j < 3; j++) {
+            data[i + j] = (data[i + j] - 128) * contrast + 128;
+        }
+
+        // Apply saturation
+        const grayscale = data[i] * 0.3 + data[i + 1] * 0.59 + data[i + 2] * 0.11;
+        data[i] = grayscale + saturation * (data[i] - grayscale);
+        data[i + 1] = grayscale + saturation * (data[i + 1] - grayscale);
+        data[i + 2] = grayscale + saturation * (data[i + 2] - grayscale);
+    }
+
+    context.putImageData(imageData, 0, 0);
+}
+
+
 function drawInitialTexture(callback) {
     const baseMap = new Image();
     baseMap.src = earthTextureSrc;
     console.log('Attempting to load image:', baseMap.src);
 
     baseMap.onload = () => {
-        console.log('Image loaded successfully');
+        console.log('Base map loaded successfully');
         context.clearRect(0, 0, textureCanvas.width, textureCanvas.height);
         context.drawImage(baseMap, 0, 0, textureCanvas.width, textureCanvas.height);
-        globe.material.map.needsUpdate = true;
         if (callback) callback();
     };
 
@@ -135,6 +177,7 @@ function drawTextureForYear(selectedYear) {
         console.log('Using cached image for year:', yearKey);
         context.clearRect(0, 0, textureCanvas.width, textureCanvas.height);
         drawInitialTexture(() => {
+            // Draw processed civilization map
             context.drawImage(civilizationMap, 0, 0, textureCanvas.width, textureCanvas.height);
             globe.material.map.needsUpdate = true;
             drawMarkersForYear(yearKey);
@@ -152,14 +195,16 @@ function drawMarkersForYear(yearKey) {
 
     if (markerData[yearKey]) {
         markerData[yearKey].forEach(data => {
-            const marker = createMarker(data.position, data.text);
+            const marker = createMarker(data.position, data.title, data.text); // Pass position, title, and text
             scene.add(marker);
             markers.push(marker);
         });
     }
 }
 
-function createMarker(position, text) {
+
+
+function createMarker(position, title, text) {
     const markerGroup = new THREE.Group();
 
     // Create the main body of the exclamation point
@@ -183,10 +228,11 @@ function createMarker(position, text) {
     markerGroup.add(pointLight);
 
     markerGroup.position.copy(latLonToVector3(position.lat, position.lon, 3));
-    markerGroup.userData = { text };
+    markerGroup.userData = { title, text };
 
     return markerGroup;
 }
+
 
 
 function latLonToVector3(lat, lon, radius) {
@@ -249,11 +295,13 @@ function onClick(event) {
             const marker = intersects.find(intersect => markers.includes(intersect.object.parent));
             if (marker) {
                 const markerText = marker.object.parent.userData.text;
-                createInfoWindow("Marker Info", markerText);
+                const markerTitle = marker.object.parent.userData.title;
+                createInfoWindow(markerTitle, markerText);
             }
         }
     }
 }
+
 
 function animate() {
     requestAnimationFrame(animate);
