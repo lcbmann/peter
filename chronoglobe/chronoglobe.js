@@ -51,7 +51,10 @@ function init() {
 
     renderer = new THREE.WebGLRenderer({ antialias: true });
     renderer.setSize(window.innerWidth, window.innerHeight);
+    renderer.gammaOutput = true;
+    renderer.gammaFactor = 2.2; // Adjust gamma factor if necessary
     document.body.appendChild(renderer.domElement);
+
 
     window.addEventListener('resize', () => {
         renderer.setSize(window.innerWidth, window.innerHeight);
@@ -131,8 +134,8 @@ function applyImageProcessing(context, width, height) {
     const imageData = context.getImageData(0, 0, width, height);
     const data = imageData.data;
 
-    const contrast = 1.2; // Example contrast adjustment factor
-    const saturation = 1.5; // Example saturation adjustment factor
+    const contrast = 1.0; // Example contrast adjustment factor
+    const saturation = 1.0; // Example saturation adjustment factor
 
     for (let i = 0; i < data.length; i += 4) {
         // Apply contrast
@@ -249,7 +252,14 @@ function latLonToVector3(lat, lon, radius) {
 function initGlobe() {
     const texture = new THREE.CanvasTexture(textureCanvas);
     const geometry = new THREE.SphereGeometry(3, 50, 50);
-    const material = new THREE.MeshStandardMaterial({ map: texture });
+
+    // Choose the material you want to use
+    const material = new THREE.MeshStandardMaterial({
+        map: texture,
+        roughness: 0.5,
+        metalness: 0.1,
+    });
+
     globe = new THREE.Mesh(geometry, material);
     scene.add(globe);
 }

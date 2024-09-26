@@ -39128,6 +39128,8 @@ function init() {
     antialias: true
   });
   renderer.setSize(window.innerWidth, window.innerHeight);
+  renderer.gammaOutput = true;
+  renderer.gammaFactor = 2.2; // Adjust gamma factor if necessary
   document.body.appendChild(renderer.domElement);
   window.addEventListener('resize', function () {
     renderer.setSize(window.innerWidth, window.innerHeight);
@@ -39195,8 +39197,8 @@ function preloadTextures() {
 function applyImageProcessing(context, width, height) {
   var imageData = context.getImageData(0, 0, width, height);
   var data = imageData.data;
-  var contrast = 1.2; // Example contrast adjustment factor
-  var saturation = 1.5; // Example saturation adjustment factor
+  var contrast = 1.0; // Example contrast adjustment factor
+  var saturation = 1.0; // Example saturation adjustment factor
 
   for (var i = 0; i < data.length; i += 4) {
     // Apply contrast
@@ -39305,8 +39307,12 @@ function latLonToVector3(lat, lon, radius) {
 function initGlobe() {
   var texture = new THREE.CanvasTexture(textureCanvas);
   var geometry = new THREE.SphereGeometry(3, 50, 50);
+
+  // Choose the material you want to use
   var material = new THREE.MeshStandardMaterial({
-    map: texture
+    map: texture,
+    roughness: 0.5,
+    metalness: 0.1
   });
   globe = new THREE.Mesh(geometry, material);
   scene.add(globe);
@@ -39405,7 +39411,7 @@ var parent = module.bundle.parent;
 if ((!parent || !parent.isParcelRequire) && typeof WebSocket !== 'undefined') {
   var hostname = "" || location.hostname;
   var protocol = location.protocol === 'https:' ? 'wss' : 'ws';
-  var ws = new WebSocket(protocol + '://' + hostname + ':' + "53426" + '/');
+  var ws = new WebSocket(protocol + '://' + hostname + ':' + "61989" + '/');
   ws.onmessage = function (event) {
     checkedAssets = {};
     assetsToAccept = [];
